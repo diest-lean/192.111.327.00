@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            position: relative;
+            transition: transform 1s ease-in-out;
+        }
+        .login-container.fade-out {
+            transform: translateY(-100vh); /* Animasi transisi keluar ke atas */
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Masuk</button>
+            <p id="errorMessage" class="error-message">Username atau password salah!</p>
+        </form>
+    </div>
+
+    <script>
+        const validUsername = "admin";
+        const validPassword = "1234";
+
+        // Cek apakah pengguna sudah login
+        if (sessionStorage.getItem("isLoggedIn") === "true") {
+            window.location.href = "home.html";  // Jika sudah login, redirect ke halaman Home
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const loginContainer = document.getElementById('loginContainer');
+
+            if (usernameInput === validUsername && passwordInput === validPassword) {
+                errorMessage.style.display = "none";
+
+                // Simpan status login di sessionStorage
+                sessionStorage.setItem("isLoggedIn", "true");
+
+                // Tambahkan animasi keluar (fade-out)
+                loginContainer.classList.add('fade-out');
+
+                // Setelah 1 detik (animasi selesai), alihkan ke halaman Home
+                setTimeout(function() {
+                    window.location.href = "home.html";
+                }, 1000);
+            } else {
+                errorMessage.style.display = "block";  // Tampilkan error jika username/password salah
+            }
+        });
+    </script>
+
+</body>
+</html>
